@@ -1,30 +1,22 @@
-# AgentCare
+# AgentCare – AI-Powered Healthcare Administration Assistant
 
-AgentCare is a local Flask-based healthcare administration assistant that accepts plain-English patient requests, routes them to the right department, manages appointments and documents, and stores workflow history in SQLite.
+AgentCare is a modular Flask-based healthcare administration assistant that accepts plain-English patient requests, routes them to the right department, manages appointments and documents, and stores workflow history in SQLite.
 
-## What it does
-- Parses a patient administration request
-- Routes the request to a department
-- Books or skips an appointment based on the request
-- Collects required documents
-- Creates a follow-up reminder when requested
-- Persists workflow state and patient data in SQLite
+> AgentCare supports administrative healthcare workflows only. It does not diagnose conditions, prescribe treatment, or replace qualified medical professionals.
 
-## Local setup
-1. Create and activate a virtual environment.
-2. Install dependencies:
-   `pip install -r Hackathon/1_AgentCare/requirements.txt`
-3. Copy the environment template:
-   `copy Hackathon/1_AgentCare/.env.example Hackathon/1_AgentCare/.env`
-4. Start the Flask app:
-   `python Hackathon/1_AgentCare/app/server.py`
-5. Open the UI at:
-   - `http://127.0.0.1:5000/`
-   - `http://127.0.0.1:5000/login`
-6. Seed example data if needed:
-   `python Hackathon/1_AgentCare/scripts/seed_sample_data.py`
+## Features
+- Secure authentication and user management
+- Patient registration and profile management
+- Appointment scheduling and availability checking
+- Department routing and doctor lookup
+- Document upload and tracking
+- Workflow history and reminders
+- Staff dashboard and audit logging
+- Persistent SQLite storage
+- Modular service, repository, and tool architecture
+- OpenAI SDK integration ready for future LLM-driven workflows
 
-## Architecture
+## Project architecture
 The project is organized into feature modules and shared infrastructure:
 - app/server.py creates the Flask app and registers blueprints.
 - app/agentcare.py contains the core service layer and schema initialization logic.
@@ -33,8 +25,31 @@ The project is organized into feature modules and shared infrastructure:
 - tools/ contains reusable helpers for patients, departments, doctors, appointments, documents, reminders, escalation, and workflow tracking.
 - migrations/ stores SQL schema snapshots, and scripts/ contains seed utilities.
 
-## Agents and tools
-AgentCare uses a small multi-agent style workflow:
+## Suggested folder layout
+```text
+AgentCare/
+├── admin/
+├── app/
+├── appointment/
+├── auth/
+├── dashboard/
+├── document/
+├── patient/
+├── workflow/
+├── repositories/
+├── tools/
+├── migrations/
+├── scripts/
+├── tests/
+├── docs/
+├── README.md
+├── requirements.txt
+├── .env.example
+└── .gitignore
+```
+
+## Agent workflow
+AgentCare uses a lightweight multi-agent-style workflow:
 - Coordinator agent: interprets the incoming request and decides the next action.
 - Department routing agent: maps the request to the relevant specialty.
 - Appointment agent: checks doctor availability and books or updates appointments.
@@ -43,36 +58,88 @@ AgentCare uses a small multi-agent style workflow:
 
 The shared tools layer enables these agents to interact with repositories rather than hard-coding database logic into routes.
 
-## Database models and initialization
-The service layer creates the SQLite schema on startup and uses migration-style SQL files in the migrations folder as a reference for the base structure.
+## Local setup
+1. Create and activate a virtual environment.
+2. Install dependencies:
+   `pip install -r requirements.txt`
+3. Copy the environment template:
+   `copy .env.example .env`
+4. Start the Flask app:
+   `python app/server.py`
+5. Open the UI at:
+   - `http://127.0.0.1:5000/`
+   - `http://127.0.0.1:5000/login`
+6. Seed example data if needed:
+   `python scripts/seed_sample_data.py`
 
-## Sample data
-The script in scripts/seed_sample_data.py inserts sample departments, doctors, and a staff account for local demos.
+## Database
+AgentCare uses SQLite as its persistent database.
+
+Major entities include:
+- Users
+- Patients
+- Departments
+- Doctors
+- Appointment slots
+- Appointments
+- Patient documents
+- Workflow runs
+- Reminders
+- Escalations
+- Audit events
+
+The system persists workflow state and supports auditability.
 
 ## Tests
 Run the regression suite with:
-`pytest Hackathon/1_AgentCare/tests`
+`pytest tests/`
 
-These tools must perform real logic and interact with persistent data. 
+## Technology stack
+- Python 3.11+
+- Flask
+- SQLite
+- OpenAI Python SDK
+- Pytest
+- Git and GitHub Actions
 
-# Database Requirements
-Persistent SQL database (SQLite/MySQL/PostgreSQL) with entities for:
-* Users
-* Patient Profiles
-* Departments
-* Doctors
-* Appointment Slots
-* Appointments
-* Patient Documents
-* Workflow Runs
-* Reminders
-* Escalations
-* Audit Events
+## Design principles
+- Modular feature-based architecture
+- Separation of concerns
+- Repository pattern
+- Service layer pattern
+- Reusable tool layer
+- Persistent workflow state
+- AI-ready architecture
+- Extensible design
 
-The system must persist workflow state and support auditability. 
+## Future enhancements
+- Full OpenAI-powered conversational workflow
+- LangGraph-style orchestration
+- Vector database integration
+- OCR for document processing
+- Email and SMS notifications
+- REST API versioning
+- PostgreSQL deployment
+- Docker support
+- Cloud deployment
 
-# Overall Goal
-The application should function as an AI Healthcare Administration Assistant that automates non-clinical patient workflows. It should accept natural-language requests, coordinate multiple specialized AI agents, invoke real backend tools, update a persistent SQL database, maintain workflow state, and provide both patients and hospital staff with a complete interface to manage registrations, appointments, documents, reminders, and escalations—while ensuring that all medical decisions remain under human supervision. 
+## Challenge compliance
+This project includes:
+- Modular source code
+- requirements.txt
+- README.md
+- .env.example
+- .gitignore
+- GitHub Actions workflow
+- SQLite persistent database
+- Automated tests
+- Migration scripts
+- Sample seed data
+- OpenAI SDK dependency for LLM integration
 
+## Disclaimer
+AgentCare is intended for healthcare administration and workflow automation only. It does not diagnose, prescribe treatment, or replace qualified healthcare professionals. All medical decisions remain under human supervision.
 
-#To Run the checks, making the edit
+## Author
+Vikas Panwar
+Developed as a submission for the AgentCare Build Challenge 2026. 
