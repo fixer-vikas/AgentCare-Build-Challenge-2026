@@ -73,3 +73,6 @@ The system must persist workflow state and support auditability.
 
 # Overall Goal
 The application should function as an AI Healthcare Administration Assistant that automates non-clinical patient workflows. It should accept natural-language requests, coordinate multiple specialized AI agents, invoke real backend tools, update a persistent SQL database, maintain workflow state, and provide both patients and hospital staff with a complete interface to manage registrations, appointments, documents, reminders, and escalations—while ensuring that all medical decisions remain under human supervision. 
+
+
+#To Run the checks, making the edit
